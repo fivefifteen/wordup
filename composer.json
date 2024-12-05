@@ -1,0 +1,25 @@
+{
+  "name": "fivefifteen/wordup",
+  "version": "0.0.1",
+  "description": "An advanced WordPress Deployer Recipe.",
+  "authors": [
+    {
+      "name": "Five Fifteen",
+      "email": "hello@fivefifteen.com",
+      "homepage": "https://fivefifteen.com"
+    },
+    {
+      "name": "Kodie Grantham",
+      "email": "kodie.grantham@gmail.com",
+      "homepage": "https://kodieg.com"
+    }
+  ],
+  "keywords": [],
+  "homepage": "https://github.com/fivefifteen/wordup",
+  "license": "MIT",
+  "require": {
+    "php": "^8.1",
+    "deployer/deployer": "^8.0.0-alpha",
+    "wp-cli/wp-cli-bundle": "^2.11"
+  }
+}
