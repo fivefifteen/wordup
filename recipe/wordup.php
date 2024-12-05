@@ -18,5 +18,7 @@ set('shared_files', array('wp-config.php'));
 set('shared_dirs', array('{{wp_uploads_dir}}'));
 set('writable_dirs', array('{{wp_uploads_dir}}'));
 
-import('config.yml');
+if (file_exists('deploy.yml')) {
+  import('deploy.yml');
+}
 ?>
