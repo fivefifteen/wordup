@@ -43,6 +43,7 @@ set('clear_paths', array(
   'deploy.php',
   'readme.md'
 ));
+set('composer_options', '--verbose --prefer-dist --no-interaction --no-dev --optimize-autoloader');
 set('current_path', '/var/www/public');
 set('deploy_path', '/var/www/public_html');
 set('shared_dirs', array('{{wp_content_dir}}'));
