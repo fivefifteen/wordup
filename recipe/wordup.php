@@ -47,13 +47,13 @@ add('shared_files', array('wp-config.php'));
 add('writable_dirs', array('{{wp_uploads_dir}}'));
 
 // Custom WordUp Options
-set('db_exports_path', '{{deploy_path}}/db_exports');
-set('db_local_exports_path', 'db_exports');
-set('keep_db_exports', false);
-set('keep_local_db_exports', true);
-set('wp_content_dir', 'wp-content');
-set('wp_uploads_dir', '{{wp_content_dir}}/uploads');
-set('wp_uploads_path', '{{release_path}}/{{wp_uploads_dir}}');
+set('db/exports_path', '{{deploy_path}}/db_exports');
+set('db/local_exports_path', 'db_exports');
+set('db/keep_exports', false);
+set('db/keep_local_exports', true);
+set('wp/content_dir', 'wp-content');
+set('wp/uploads_dir', '{{wp_content_dir}}/uploads');
+set('wp/uploads_path', '{{release_path}}/{{wp_uploads_dir}}');
 
 if (!isset($config_file)) $config_file = 'deploy.yml';
 
