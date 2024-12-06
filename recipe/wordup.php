@@ -42,9 +42,9 @@ add('clear_paths', array(
   'readme.md'
 ));
 add('recipes', array('wordup'));
-add('shared_dirs', array('{{wp_uploads_dir}}'));
+add('shared_dirs', array('{{wp/uploads_dir}}'));
 add('shared_files', array('wp-config.php'));
-add('writable_dirs', array('{{wp_uploads_dir}}'));
+add('writable_dirs', array('{{wp/uploads_dir}}'));
 
 // Custom WordUp Options
 set('db/exports_path', '{{deploy_path}}/db_exports');
@@ -52,8 +52,8 @@ set('db/local_exports_path', 'db_exports');
 set('db/keep_exports', false);
 set('db/keep_local_exports', true);
 set('wp/content_dir', 'wp-content');
-set('wp/uploads_dir', '{{wp_content_dir}}/uploads');
-set('wp/uploads_path', '{{release_path}}/{{wp_uploads_dir}}');
+set('wp/uploads_dir', '{{wp/content_dir}}/uploads');
+set('wp/uploads_path', '{{release_path}}/{{wp/uploads_dir}}');
 
 if (!isset($config_file)) $config_file = 'deploy.yml';
 
