@@ -45,10 +45,10 @@ set('clear_paths', array(
 ));
 set('current_path', '/var/www/public');
 set('deploy_path', '/var/www/public_html');
-set('shared_dirs', array('{{wp_content_dir}}'));
+set('shared_dirs', array('{{wp_uploads_dir}}'));
 set('shared_files', array('wp-config.php'));
 set('use_atomic_symlink', false);
-set('writable_dirs', array('{{wp_content_dir}}'));
+set('writable_dirs', array('{{wp_uploads_dir}}'));
 
 // Custom WordUp Options
 set('db_exports_path', '{{deploy_path}}/db_exports');
