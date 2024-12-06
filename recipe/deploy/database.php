@@ -9,7 +9,7 @@ use function \Deployer\{
   upload
 };
 
-use function \WordUp\Helper\localhost;
+use function \WordUp\Helper\getLocalhost;
 
 task('db:local:export', function () {
   if (!get('db/export_name')) {
@@ -29,7 +29,7 @@ task('db:local:import', function () {
     throw new \Error('db/export_name variable required');
   }
 
-  $local_url = localhost()->get('url');
+  $local_url = getLocalhost()->get('url');
   $local_file = "{{db/local_exports_path}}/{{db/export_name}}";
 
   runLocally("./vendor/bin/wp db import {$local_file}");
@@ -67,7 +67,7 @@ task('db:remote:import', function () {
     throw new \Error('db/export_name variable required');
   }
 
-  $local_url = localhost()->get('url');
+  $local_url = getLocalhost()->get('url');
   $local_file = "{{db/local_exports_path}}/{{db/export_name}}";
   $remote_file = "{{db/exports_path}}/{{db/export_name}}";
 

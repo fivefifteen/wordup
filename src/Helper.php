@@ -2,7 +2,7 @@
 namespace WordUp;
 
 class Helper {
-  static function localhost() {
+  static function getLocalhost() {
     return \Deployer\Deployer::get()->hosts->get('localhost');
   }
 }
