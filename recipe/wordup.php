@@ -45,18 +45,18 @@ set('clear_paths', array(
 ));
 set('current_path', '/var/www/public');
 set('deploy_path', '/var/www/public_html');
-set('shared_dirs', array('wp-content'));
+set('shared_dirs', array('{{wp_content_dir}}'));
 set('shared_files', array('wp-config.php'));
-set('writable_dirs', array('wp-content'));
+set('writable_dirs', array('{{wp_content_dir}}'));
 
 // Custom WordUp Options
-set('db_exports_path', '/var/www/public_html/db_exports');
+set('db_exports_path', '{{deploy_path}}/db_exports');
 set('db_local_exports_path', 'db_exports');
 set('keep_db_exports', false);
 set('keep_local_db_exports', true);
 set('wp_content_dir', 'wp-content');
-set('wp_uploads_dir', 'wp-content/uploads');
-set('wp_uploads_path', '{{release_path}}/wp-content/uploads');
+set('wp_uploads_dir', '{{wp_content_dir}}/uploads');
+set('wp_uploads_path', '{{release_path}}/{{wp_uploads_dir}}');
 
 if (!isset($config_file)) $config_file = 'deploy.yml';
 
