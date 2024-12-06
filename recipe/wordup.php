@@ -29,10 +29,8 @@ task('deploy', array(
   'deploy:success'
 ))->desc('Deploys your WordPress project');
 
-add('recipes', array('wordup'));
-
 // Built-in Deployer options
-set('clear_paths', array(
+add('clear_paths', array(
   '.git',
   '.gitignore',
   '.lando.yml',
@@ -43,12 +41,10 @@ set('clear_paths', array(
   'deploy.php',
   'readme.md'
 ));
-set('current_path', '/var/www/public');
-set('deploy_path', '/var/www/public_html');
-set('shared_dirs', array('{{wp_uploads_dir}}'));
-set('shared_files', array('wp-config.php'));
-set('use_atomic_symlink', false);
-set('writable_dirs', array('{{wp_uploads_dir}}'));
+add('recipes', array('wordup'));
+add('shared_dirs', array('{{wp_uploads_dir}}'));
+add('shared_files', array('wp-config.php'));
+add('writable_dirs', array('{{wp_uploads_dir}}'));
 
 // Custom WordUp Options
 set('db_exports_path', '{{deploy_path}}/db_exports');
