@@ -1,4 +1,10 @@
 <?php
+use function \Deployer\{
+  download,
+  task,
+  upload
+};
+
 task('uploads:push', function () {
   upload('{{wp_uploads_dir}}', '{{wp_uploads_path}}');
 })->once()->desc('Pushes uploads from local to remote');
