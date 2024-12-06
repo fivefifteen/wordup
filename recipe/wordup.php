@@ -11,6 +11,7 @@ require_once('recipe/common.php');
 
 require_once(__DIR__ . '/deploy/database.php');
 require_once(__DIR__ . '/deploy/uploads.php');
+require_once(__DIR__ . '/deploy/wordpress.php');
 
 task('deploy', array(
   'deploy:info',
@@ -47,13 +48,13 @@ add('shared_files', array('wp-config.php'));
 add('writable_dirs', array('{{wp/uploads_dir}}'));
 
 // Custom WordUp Options
-set('db/exports_path', '{{deploy_path}}/db_exports');
-set('db/local_exports_path', 'db_exports');
+set('db/exports_path', '{{release_or_current_path}}/db_exports');
 set('db/keep_exports', false);
 set('db/keep_local_exports', true);
 set('wp/content_dir', 'wp-content');
+set('wp/siteurl', '{{wp/home}}');
 set('wp/uploads_dir', '{{wp/content_dir}}/uploads');
-set('wp/uploads_path', '{{release_path}}/{{wp/uploads_dir}}');
+set('wp/uploads_path', '{{release_or_current_path}}/{{wp/uploads_dir}}');
 
 if (!isset($config_file)) $config_file = 'deploy.yml';
 

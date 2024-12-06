@@ -25,6 +25,7 @@
   "require": {
     "php": "^8.1",
     "deployer/deployer": "^7.5",
+    "sebastian/exporter": "^6.3",
     "wp-cli/wp-cli-bundle": "^2.11"
   }
 }

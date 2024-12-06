@@ -33,7 +33,7 @@ task('db:local:import', function () {
   $local_file = "{{db/local_exports_path}}/{{db/export_name}}";
 
   runLocally("./vendor/bin/wp db import {$local_file}");
-  runLocally("./vendor/bin/wp search-replace {{url}} --all-tables {$local_url}");
+  runLocally("./vendor/bin/wp search-replace {{wp/home}} --all-tables {$local_url}");
 
   if (!get('db/keep_local_exports')) {
     run("rm {$local_file}");
@@ -75,7 +75,7 @@ task('db:remote:import', function () {
   upload($local_file, $remote_file);
 
   runLocally("./vendor/bin/wp db import {$remote_file} --ssh={{user}}@{{hostname}}:{{release_path}}");
-  runLocally("./vendor/bin/wp search-replace {$local_url} {{url}} --all-tables --ssh={{user}}@{{hostname}}:{{release_path}}");
+  runLocally("./vendor/bin/wp search-replace {$local_url} {{wp/home}} --all-tables --ssh={{user}}@{{hostname}}:{{release_path}}");
 
   if (!get('db/keep_exports')) {
     run("rm {$remote_file}");
