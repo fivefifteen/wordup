@@ -3,6 +3,7 @@ use function \Deployer\{
   add,
   after,
   import,
+  localhost,
   set,
   task
 };
@@ -48,13 +49,16 @@ add('shared_files', array('wp-config.php'));
 add('writable_dirs', array('{{wp/uploads_dir}}'));
 
 // Custom WordUp Options
-set('db/exports_path', '{{release_or_current_path}}/db_exports');
+set('db/exports_dir', 'db_exports');
+set('db/exports_path', '{{release_or_current_path}}/{{db/exports_dir}}');
 set('db/keep_exports', false);
 set('db/keep_local_exports', true);
 set('wp/content_dir', 'wp-content');
 set('wp/siteurl', '{{wp/home}}');
 set('wp/uploads_dir', '{{wp/content_dir}}/uploads');
 set('wp/uploads_path', '{{release_or_current_path}}/{{wp/uploads_dir}}');
+
+localhost();
 
 if (!isset($config_file)) $config_file = 'deploy.yml';
 

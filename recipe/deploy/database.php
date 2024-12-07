@@ -4,6 +4,7 @@ use function \Deployer\{
   get,
   run,
   runLocally,
+  select,
   set,
   task,
   upload
@@ -11,47 +12,47 @@ use function \Deployer\{
 
 use function \WordUp\Helper\getLocalhost;
 
-task('db:local:export', function () {
+task('db:export', function () {
   if (!get('db/export_name')) {
     $now = date('ymdHis');
     set('db/export_name', "{$now}.sql");
   }
 
-  $local_file = "{{db/exports_path}}/{{db/export_name}}";
+  $local_file = "{{db/exports_dir}}/{{db/export_name}}";
 
-  runLocally('mkdir -p {{db/exports_path}}');
+  runLocally('mkdir -p {{db/exports_dir}}');
   runLocally("./vendor/bin/wp db export {$local_file} --add-drop-table");
-})->once()->desc('Exports the local database');
+})->select('localhost')->desc('Exports the local database');
 
 
-task('db:local:import', function () {
+task('db:import', function () {
   if (!get('db/export_name')) {
     throw new \Error('db/export_name variable required');
   }
 
   $local_url = getLocalhost()->get('url');
-  $local_file = "{{db/exports_path}}/{{db/export_name}}";
+  $local_file = "{{db/exports_dir}}/{{db/export_name}}";
 
   runLocally("./vendor/bin/wp db import {$local_file}");
   runLocally("./vendor/bin/wp search-replace {{wp/home}} --all-tables {$local_url}");
 
   if (!get('db/keep_local_exports')) {
-    run("rm {$local_file}");
+    runLocally("rm {$local_file}");
   }
-})->once()->desc('Imports a database export into the local database');
+})->select('localhost')->desc('Imports a database export into the local database');
 
 
-task('db:remote:export', function () {
+task('db:export:remote', function () {
   if (!get('db/export_name')) {
     $now = date('ymdHis');
     set('db/export_name', "{$now}.sql");
   }
 
-  $local_file = "{{db/exports_path}}/{{db/export_name}}";
+  $local_file = "{{db/exports_dir}}/{{db/export_name}}";
   $remote_file = "{{db/exports_path}}/{{db/export_name}}";
 
   run('mkdir -p {{db/exports_path}}');
-  runLocally('mkdir -p {{db/exports_path}}');
+  runLocally('mkdir -p {{db/exports_dir}}');
 
   runLocally("./vendor/bin/wp db export {$remote_file} --add-drop-table --ssh={{user}}@{{hostname}}:{{release_path}}");
   download($remote_file, $local_file);
@@ -62,13 +63,13 @@ task('db:remote:export', function () {
 })->once()->desc('Exports and downloads the remote database');
 
 
-task('db:remote:import', function () {
+task('db:import:remote', function () {
   if (!get('db/export_name')) {
     throw new \Error('db/export_name variable required');
   }
 
   $local_url = getLocalhost()->get('url');
-  $local_file = "{{db/exports_path}}/{{db/export_name}}";
+  $local_file = "{{db/exports_dir}}/{{db/export_name}}";
   $remote_file = "{{db/exports_path}}/{{db/export_name}}";
 
   run('mkdir -p {{db/exports_path}}');
@@ -84,13 +85,13 @@ task('db:remote:import', function () {
 
 
 task('db:pull', array(
-  'db:remote:export',
-  'db:local:import'
-))->once()->desc('Pulls remote database to localhost (combines `db:remote:export` and `db:local:import`)');
+  'db:export:remote',
+  'db:import'
+))->once()->desc('Pulls remote database to localhost (invokes `db:export:remote` and `db:import`)');
 
 
 task('db:push', array(
-  'db:local:export',
-  'db:remote:import'
-))->once()->desc('Pushes local database to remote host (combines `db:local:export` and `db:remote:import`)');
+  'db:export',
+  'db:import:remote'
+))->once()->desc('Pushes local database to remote host (invokes `db:export` and `db:import:remote`)');
 ?>
