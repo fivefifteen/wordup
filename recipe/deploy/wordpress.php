@@ -46,6 +46,29 @@ task('wp:config:create', function () {
     'WP_CONTENT_DIR'  => '{{wp/content_path}}'
   ), get('wp/config/constants') ?: array());
 
+  $salt_keys = array(
+    'AUTH_KEY',
+    'SECURE_AUTH_KEY',
+    'LOGGED_IN_KEY',
+    'NONCE_KEY',
+    'AUTH_SALT',
+    'SECURE_AUTH_SALT',
+    'LOGGED_IN_SALT',
+    'NONCE_SALT',
+    'WP_CACHE_KEY_SALT'
+  );
+
+  if ($salt_values = array_intersect_key($constants, array_flip($salt_keys))) {
+    $expected_count = count($salt_keys);
+    $actual_count = count($salt_values);
+
+    if ($actual_count !== $expected_count) {
+      throw new \Error("If defining your own salts, you should have {$expected_count} total: " . implode(', ', $salt_keys));
+    }
+
+    $default_options['skip-salts'] = true;
+  }
+
   foreach($default_options as $option_flag => $option_value) {
     $options .= " --{$option_flag}";
 
