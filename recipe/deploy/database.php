@@ -10,8 +10,6 @@ use function \Deployer\{
   upload
 };
 
-use function \WordUp\Helper\getLocalhost;
-
 task('db:export', function () {
   if (!get('db/export_name')) {
     $now = date('ymdHis');
@@ -30,7 +28,7 @@ task('db:import', function () {
     throw new \Error('db/export_name variable required');
   }
 
-  $local_url = getLocalhost()->get('url');
+  $local_url = \WordUp\Helper::getLocalhost()->get('url');
   $local_file = "{{db/exports_dir}}/{{db/export_name}}";
 
   runLocally("./vendor/bin/wp db import {$local_file}");
@@ -68,7 +66,7 @@ task('db:import:remote', function () {
     throw new \Error('db/export_name variable required');
   }
 
-  $local_url = getLocalhost()->get('url');
+  $local_url = \WordUp\Helper::getLocalhost()->get('url');
   $local_file = "{{db/exports_dir}}/{{db/export_name}}";
   $remote_file = "{{db/exports_path}}/{{db/export_name}}";
 
