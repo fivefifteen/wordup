@@ -9,7 +9,6 @@ use function \Deployer\{
 $dumper = new \Nette\PhpGenerator\Dumper;
 
 task('wp:config:create', function () {
-  $exporter = new Exporter;
   $db = get('db/credentials');
 
   $options = '';
