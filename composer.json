@@ -25,7 +25,7 @@
   "require": {
     "php": "^8.1",
     "deployer/deployer": "^7.5",
-    "sebastian/exporter": "^6.3",
+    "nette/php-generator": "^4.1",
     "wp-cli/wp-cli-bundle": "^2.11"
   }
 }
