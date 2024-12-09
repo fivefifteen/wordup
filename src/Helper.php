@@ -24,7 +24,7 @@ class Helper {
   }
 
   static function getTemplateStage($file_name) {
-    preg_match_all(self::getTemplateExtExp(), $file_name, $matches, PREG_SET_ORDER, 0);
+    preg_match(self::getTemplateExtExp(), $file_name, $matches, PREG_SET_ORDER, 0);
 
     if ($matches) {
       if (count($matches) > 1) {

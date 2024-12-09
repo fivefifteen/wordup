@@ -2,7 +2,9 @@
 use function \Deployer\{
   currentHost,
   get,
+  info,
   parse,
+  runLocally,
   task,
   upload
 };
@@ -23,7 +25,12 @@ task('templates:render', function () {
       !($template_stage = \WordUp\Helper::getTemplateStage($template_file)) ||
       (($specific_stage = is_string($template_stage)) && $template_stage !== $current_host_alias) ||
       (!$specific_stage && array_search("{$rendered_file}.{$current_host_alias}.mustache", $templates_files) !== false)
-    ) continue;
+    ) {
+      info("Skipping {$template_file}...");
+      continue;
+    }
+
+    info("Loading {$template_file}...");
 
     $contents = file_get_contents($template_file);
     $rendered = $m->render($contents, (array) $current_host);
@@ -34,7 +41,11 @@ task('templates:render', function () {
       runLocally('mkdir -p {{templates/temp_dir}}');
     }
 
-    file_put_contents(parse($rendered_file), $rendered);
+    $rendered_file = parse($rendered_file);
+
+    info("Saving {$rendered_file}...");
+
+    file_put_contents($rendered_file, $rendered);
 
     if ($remote_deploy) {
       upload($rendered_file, $remote_path);
