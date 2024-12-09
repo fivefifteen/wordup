@@ -24,6 +24,10 @@ task('wp:config:create', function () {
     'force'       => true
   );
 
+  if (!\WordUp\Helper::isLocalhost()) {
+    $default_options['ssh'] = '{{remote_user}}@{{hostname}}:{{current_path}}';
+  }
+
   $check_options = array(
     'dbname'    => 'name',
     'dbuser'    => 'user',
@@ -80,6 +84,6 @@ task('wp:config:create', function () {
     $options .= " --extra-php <<PHP\n{$extra_php}\nPHP";
   }
 
-  runLocally("./vendor/bin/wp config create{$options}", array(), null, null, $secret);
+  run("./vendor/bin/wp config create{$options}", array(), null, null, $secret);
 });
 ?>
