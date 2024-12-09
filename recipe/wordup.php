@@ -2,6 +2,7 @@
 use function \Deployer\{
   add,
   after,
+  get,
   import,
   localhost,
   set,
@@ -11,6 +12,7 @@ use function \Deployer\{
 require_once('recipe/common.php');
 
 require_once(__DIR__ . '/deploy/database.php');
+require_once(__DIR__ . '/deploy/templates.php');
 require_once(__DIR__ . '/deploy/uploads.php');
 require_once(__DIR__ . '/deploy/wordpress.php');
 
@@ -53,6 +55,8 @@ set('db/exports_dir', 'db_exports');
 set('db/exports_path', '{{deploy_path}}/{{db/exports_dir}}');
 set('db/keep_exports', false);
 set('db/keep_local_exports', true);
+set('templates/files', array());
+set('templates/temp_dir', '.tmp');
 set('wp/content_dir', 'wp-content');
 set('wp/content_path', '{{release_or_current_path}}/{{wp/content_dir}}');
 set('wp/siteurl', '{{wp/home}}');
@@ -66,4 +70,16 @@ if (!isset($config_file)) $config_file = 'deploy.yml';
 if (file_exists($config_file)) {
   import($config_file);
 }
+
+$templates_files = get('templates/files');
+
+add('clear_paths', $templates_files);
+
+add('shared_files', array_unique(array_map(function ($template_file, $rendered_file) {
+  if (!is_string($rendered_file)) {
+    $rendered_file = \WordUp\Helper::getTemplateRenderedName($template_file);
+  }
+
+  return $rendered_file;
+}, $templates_files, array_keys($templates_files))));
 ?>
