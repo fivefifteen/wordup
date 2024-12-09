@@ -1,7 +1,7 @@
 <?php
 use function \Deployer\{
   get,
-  run,
+  parse,
   runLocally,
   task
 };
@@ -12,12 +12,6 @@ task('wp:config:create', function () {
 
   $options = '';
   $extra_php = '';
-  $secret = null;
-
-  if (isset($db['pass'])) {
-    $secret = $db['pass'];
-    $db['pass'] = '%secret%';
-  }
 
   $default_options = array(
     'config-file' => "{{release_or_current_path}}/wp-config.php",
@@ -107,6 +101,6 @@ task('wp:config:create', function () {
     $options .= " --extra-php <<PHP\n{$extra_php}\nPHP";
   }
 
-  run("./vendor/bin/wp config create{$options}", array(), null, null, $secret);
+  runLocally("./vendor/bin/wp config create%secret%", array(), null, null, parse($options));
 });
 ?>
