@@ -1,9 +1,7 @@
 <?php
-namespace WordUp;
+namespace WordUp\Helper;
 
-class Helper {
-  static function getLocalhost() {
-    return \Deployer\Deployer::get()->hosts->get('localhost');
-  }
+function getLocalhost() {
+  return \Deployer\Deployer::get()->hosts->get('localhost');
 }
 ?>
