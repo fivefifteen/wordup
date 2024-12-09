@@ -43,7 +43,7 @@ task('wp:config:create', function () {
     'WP_HOME'         => '{{wp/home}}',
     'WP_SITEURL'      => '{{wp/siteurl}}',
     'WP_CONTENT_URL'  => '{{wp/home}}/{{wp/content_dir}}',
-    'WP_CONTENT_DIR'  => '{{wp/uploads_path}}'
+    'WP_CONTENT_DIR'  => '{{wp/content_path}}'
   ), get('wp/config/constants') ?: array());
 
   foreach($default_options as $option_flag => $option_value) {
