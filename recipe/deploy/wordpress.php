@@ -80,6 +80,6 @@ task('wp:config:create', function () {
     $options .= " --extra-php <<PHP\n{$extra_php}\nPHP";
   }
 
-  runLocally("./vendor/bin/wp config create --config-file={{release_or_current_path}}/wp-config.php{$options}", array(), null, null, $secret);
+  runLocally("./vendor/bin/wp config create{$options}", array(), null, null, $secret);
 });
 ?>
