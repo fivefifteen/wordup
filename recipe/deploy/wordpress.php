@@ -20,7 +20,7 @@ task('wp:config:create', function () {
   }
 
   $default_options = array(
-    'config-file' => "{{release_or_current_path}}/wp-config.php{$options}",
+    'config-file' => "{{release_or_current_path}}/wp-config.php",
     'force'       => true
   );
 
