@@ -22,7 +22,7 @@ task('db:export', function () {
 
   runLocally('mkdir -p {{db/exports_dir}}');
   runLocally("./vendor/bin/wp db export {$local_file} --add-drop-table");
-})->select('localhost')->desc('Exports the local database');
+})->once()->desc('Exports the local database');
 
 
 task('db:import', function () {
@@ -39,7 +39,7 @@ task('db:import', function () {
   if (!get('db/keep_local_exports')) {
     runLocally("rm {$local_file}");
   }
-})->select('localhost')->desc('Imports a database export into the local database');
+})->once()->desc('Imports a database export into the local database');
 
 
 task('db:export:remote', function () {
@@ -54,7 +54,7 @@ task('db:export:remote', function () {
   run('mkdir -p {{db/exports_path}}');
   runLocally('mkdir -p {{db/exports_dir}}');
 
-  runLocally("./vendor/bin/wp db export {$remote_file} --add-drop-table --ssh={{user}}@{{hostname}}:{{release_path}}");
+  runLocally("./vendor/bin/wp db export {$remote_file} --add-drop-table --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
   download($remote_file, $local_file);
 
   if (!get('db/keep_exports')) {
@@ -75,8 +75,8 @@ task('db:import:remote', function () {
   run('mkdir -p {{db/exports_path}}');
   upload($local_file, $remote_file);
 
-  runLocally("./vendor/bin/wp db import {$remote_file} --ssh={{user}}@{{hostname}}:{{release_path}}");
-  runLocally("./vendor/bin/wp search-replace {$local_url} {{wp/home}} --all-tables --ssh={{user}}@{{hostname}}:{{release_path}}");
+  runLocally("./vendor/bin/wp db import {$remote_file} --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
+  runLocally("./vendor/bin/wp search-replace {$local_url} {{wp/home}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
 
   if (!get('db/keep_exports')) {
     run("rm {$remote_file}");

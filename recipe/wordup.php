@@ -50,7 +50,7 @@ add('writable_dirs', array('{{wp/uploads_dir}}'));
 
 // Custom WordUp Options
 set('db/exports_dir', 'db_exports');
-set('db/exports_path', '{{release_or_current_path}}/{{db/exports_dir}}');
+set('db/exports_path', '{{deploy_path}}/{{db/exports_dir}}');
 set('db/keep_exports', false);
 set('db/keep_local_exports', true);
 set('wp/content_dir', 'wp-content');
