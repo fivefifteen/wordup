@@ -5,6 +5,7 @@ use function \Deployer\{
   info,
   parse,
   runLocally,
+  set,
   task
 };
 
@@ -92,7 +93,7 @@ task('wp:config:create', function () {
 
 
 task('wp:salts:php', function () {
-  $salts = \WordUp\Helper\generateSalts();
+  $salts = \WordUp\Helper::generateSalts();
   $dumper = new \Nette\PhpGenerator\Dumper;
   $results = array();
 
