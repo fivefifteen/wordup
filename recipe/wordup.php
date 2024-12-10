@@ -39,9 +39,11 @@ add('clear_paths', array(
   '.gitignore',
   '.lando.yml',
   'auth.json',
+  'auth.encrypted.json',
   'composer.json',
   'composer.lock',
   'deploy.yml',
+  'deploy.encrypted.yml',
   'deploy.php',
   'readme.md'
 ));
