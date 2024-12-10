@@ -1,0 +1,51 @@
+config:
+  application: my-website-slug
+  repository: git@github.com:my-github-username/{{application}}.git
+  wp/home: http://localhost
+  db/credentials:
+    host: database
+    name: wp_mywebsitedatabase
+    user: root
+    pass: ''
+  wp/config/constants: &default_wp_config_constants
+    WP_ENVIRONMENT_TYPE: development
+    WP_AUTO_UPDATE_CORE: false
+    WP_DEBUG: true
+    WP_DEBUG_DISPLAY: false
+    WP_DEBUG_LOG: true
+    SAVEQUERIES: true
+    SCRIPT_DEBUG: true
+
+hosts:
+  staging-server:
+    hostname: 123.456.78.90
+    remote_user: www-data
+    branch: development
+    wp/home: https://{{application}}.staging-website.com
+    db/credentials:
+      host: 127.0.0.1:3306
+      name: wp_mywebsitedatabase
+      user: staging_database_username
+      pass: staging_database_password
+    wp/config/constants:
+      <<: *default_wp_config_constants
+      WP_ENVIRONMENT_TYPE: staging
+
+  production-server:
+    hostname: 098.765.43.21
+    remote_user: www-data
+    branch: main
+    wp/home: https://production-website.com
+    db/credentials:
+      host: 127.0.0.1:3306
+      name: wp_mywebsitedatabase
+      user: production_database_username
+      pass: production_database_password
+    wp/config/constants:
+      <<: *default_wp_config_constants
+      WP_ENVIRONMENT_TYPE: production
+      WP_DEBUG: false
+      WP_DEBUG_DISPLAY: false
+      WP_DEBUG_LOG: false
+      SAVEQUERIES: false
+      SCRIPT_DEBUG: false
