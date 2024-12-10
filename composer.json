@@ -31,6 +31,7 @@
     "mustache/mustache": "^2.14",
     "nette/php-generator": "^4.1",
     "paragonie/random-lib": "^2.0",
+    "symfony/yaml": "^7.2",
     "wp-cli/wp-cli-bundle": "^2.11"
   }
 }

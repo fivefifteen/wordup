@@ -25,11 +25,11 @@ class Helper {
     $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
     if ($special_chars) {
-      $chars .= '!@#$%^&*()';
+      $chars .= is_string($special_chars) ? $special_chars : '!@#$%^&*()';
     }
 
     if ($extra_special_chars) {
-      $chars .= '-_ []{}~+=,.;:/?|';
+      $chars .= is_string($extra_special_chars) ? $extra_special_chars : '-_ []{}<>~`+=,.;:/?|';
     }
 
     $factory = new \RandomLib\Factory;
@@ -38,12 +38,12 @@ class Helper {
     return $generator->generateString($length, $chars);
   }
 
-  static function generateSalts(array $keys = array()) {
+  static function generateSalts(array $keys = array(), string|bool $extra_special_chars = false) {
     $salt_keys = $keys ? $keys : self::$salt_keys;
     $salts = array();
 
     foreach($salt_keys as $salt_key) {
-      $salts[$salt_key] = self::generatePassword(64, true, true);
+      $salts[$salt_key] = self::generatePassword(64, true, $extra_special_chars);
     }
 
     return $salts;

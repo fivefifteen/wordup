@@ -120,7 +120,7 @@ task('wp:salts:php', function () {
 
 
 task('wp:salts:json', function () {
-  $salts = \WordUp\Helper::generateSalts();
+  $salts = \WordUp\Helper::generateSalts(array(), '-_ []{}<>~`+=,.;:?|');
   $contents = json_encode($salts, JSON_PRETTY_PRINT);
 
   runLocally('mkdir -p {{wp/salts/temp_dir}}');
@@ -136,4 +136,23 @@ task('wp:salts:json', function () {
 
   info("Salts saved to {$file_path}");
 })->once()->desc('Generates salts in JSON format and saves them to a file');
+
+
+task('wp:salts:yml', function () {
+  $salts = \WordUp\Helper::generateSalts(array(), '-_ []{}<>~+=,.;:/?|');
+  $contents = Symfony\Component\Yaml\Yaml::dump($salts);
+
+  runLocally('mkdir -p {{wp/salts/temp_dir}}');
+
+  if (!get('wp/salts/yml/file_name')) {
+    $now = date('ymdHis');
+    set('wp/salts/yml/file_name', "salts-{$now}.yml");
+  }
+
+  $file_path = parse('{{wp/salts/temp_dir}}/{{wp/salts/yml/file_name}}');
+
+  file_put_contents($file_path, $contents);
+
+  info("Salts saved to {$file_path}");
+})->once()->desc('Generates salts in YML format and saves them to a file');
 ?>
