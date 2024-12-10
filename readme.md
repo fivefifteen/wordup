@@ -79,7 +79,7 @@ These are options that are custom to WordUp. See the source of [recipe/wordup.ph
  - `db/exports_path` - The remote path to save database exports to
  - `db/keep_exports` - If falsy, database exports will not be deleted from the remote server after downloading
  - `db/keep_local_exports` - If truthy, database exports will be deleted from the local environment after importing
- - `templates/files` - A list of `.mustache` files that will be rendered during the `templates:render` task
+ - `templates/files` - A list of `.mustache` files to be rendered
  - `templates/temp_dir` - A temporary directory to store template files before uploading them to a remote server
  - `wp/config/constants` - An associative array of constants to write to `wp-config.php` during the `wp:config:create` task
  - `wp/config/extra_php` - PHP code that should be included in `wp-config.php`
