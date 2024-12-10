@@ -117,4 +117,23 @@ task('wp:salts:php', function () {
 
   info("Salts saved to {$file_path}");
 })->once()->desc('Generates salts in PHP format and saves them to a file');
+
+
+task('wp:salts:json', function () {
+  $salts = \WordUp\Helper::generateSalts();
+  $contents = json_encode($salts, JSON_PRETTY_PRINT);
+
+  runLocally('mkdir -p {{wp/salts/temp_dir}}');
+
+  if (!get('wp/salts/json/file_name')) {
+    $now = date('ymdHis');
+    set('wp/salts/json/file_name', "salts-{$now}.json");
+  }
+
+  $file_path = parse('{{wp/salts/temp_dir}}/{{wp/salts/json/file_name}}');
+
+  file_put_contents($file_path, $contents);
+
+  info("Salts saved to {$file_path}");
+})->once()->desc('Generates salts in JSON format and saves them to a file');
 ?>
