@@ -29,7 +29,7 @@ class Helper {
     }
 
     if ($extra_special_chars) {
-      $chars .= '-_ []{}<>~+=,.;:/?|';
+      $chars .= '-_ []{}~+=,.;:/?|';
     }
 
     $factory = new \RandomLib\Factory;
