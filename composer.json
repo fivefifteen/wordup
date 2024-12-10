@@ -1,7 +1,7 @@
 {
   "name": "fivefifteen/wordup",
   "version": "0.0.1",
-  "description": "An advanced WordPress Deployer Recipe.",
+  "description": "A WordPress Deployer Recipe.",
   "authors": [
     {
       "name": "Five Fifteen",
@@ -14,7 +14,26 @@
       "homepage": "https://kodieg.com"
     }
   ],
-  "keywords": [],
+  "keywords": [
+    "action",
+    "cli",
+    "copy",
+    "deploy",
+    "deployment",
+    "deployer",
+    "download",
+    "git",
+    "host",
+    "local",
+    "localhost",
+    "provision",
+    "remote",
+    "ssh",
+    "tool",
+    "upload",
+    "version",
+    "wordpress"
+  ],
   "homepage": "https://github.com/fivefifteen/wordup",
   "license": "MIT",
   "autoload": {
