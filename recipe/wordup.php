@@ -68,10 +68,10 @@ set('wp/uploads_path', '{{release_or_current_path}}/{{wp/uploads_dir}}');
 
 localhost();
 
-if (!isset($config_file)) $config_file = 'deploy.yml';
+if (!isset($wordup_yml_file)) $wordup_yml_file = 'deploy.yml';
 
-if (file_exists($config_file)) {
-  import($config_file);
+if (file_exists($wordup_yml_file)) {
+  import($wordup_yml_file);
 }
 
 $templates_files = get('templates/files');
