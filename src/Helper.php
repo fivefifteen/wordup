@@ -38,7 +38,7 @@ class Helper {
     return $generator->generateString($length, $chars);
   }
 
-  static function generateSalts(array $keys = array(), string|bool $extra_special_chars = false) {
+  static function generateSalts(array $keys = array(), string|bool $extra_special_chars = true) {
     $salt_keys = $keys ? $keys : self::$salt_keys;
     $salts = array();
 
