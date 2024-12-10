@@ -59,6 +59,7 @@ set('templates/files', array());
 set('templates/temp_dir', '.tmp');
 set('wp/content_dir', 'wp-content');
 set('wp/content_path', '{{release_or_current_path}}/{{wp/content_dir}}');
+set('wp/salts/temp_dir', '.tmp');
 set('wp/siteurl', '{{wp/home}}');
 set('wp/uploads_dir', '{{wp/content_dir}}/uploads');
 set('wp/uploads_path', '{{release_or_current_path}}/{{wp/uploads_dir}}');

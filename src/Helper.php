@@ -2,10 +2,53 @@
 namespace WordUp;
 
 use function \Deployer\{
-  currentHost
+  currentHost,
+  fetch,
+  get,
+  set
 };
 
 class Helper {
+  static $salt_keys = array(
+    'AUTH_KEY',
+    'SECURE_AUTH_KEY',
+    'LOGGED_IN_KEY',
+    'NONCE_KEY',
+    'AUTH_SALT',
+    'SECURE_AUTH_SALT',
+    'LOGGED_IN_SALT',
+    'NONCE_SALT',
+    'WP_CACHE_KEY_SALT'
+  );
+
+  static function generatePassword($length = 12, $special_chars = true, $extra_special_chars = false) {
+    $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    if ($special_chars) {
+      $chars .= '!@#$%^&*()';
+    }
+
+    if ($extra_special_chars) {
+      $chars .= '-_ []{}<>~+=,.;:/?|';
+    }
+
+    $factory = new \RandomLib\Factory;
+    $generator = $factory->getMediumStrengthGenerator();
+
+    return $generator->generateString($length, $chars);
+  }
+
+  static function generateSalts(array $keys = array()) {
+    $salt_keys = $keys ? $keys : self::$salt_keys;
+    $salts = array();
+
+    foreach($salt_keys as $salt_key) {
+      $salts[$salt_key] = self::generatePassword(64, true, true);
+    }
+
+    return $salts;
+  }
+
   static function getHostsList() {
     return array_keys(\Deployer\Deployer::get()->hosts->all());
   }

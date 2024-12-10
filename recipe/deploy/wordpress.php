@@ -1,6 +1,8 @@
 <?php
 use function \Deployer\{
+  fetch,
   get,
+  info,
   parse,
   runLocally,
   task
@@ -8,14 +10,17 @@ use function \Deployer\{
 
 task('wp:config:create', function () {
   $dumper = new \Nette\PhpGenerator\Dumper;
+  $salt_keys = \WordUp\Helper::$salt_keys;
   $db = get('db/credentials');
+  $user_defined_constants = get('wp/config/constants', array());
 
   $options = '';
   $extra_php = '';
 
   $default_options = array(
     'config-file' => "{{release_or_current_path}}/wp-config.php",
-    'force'       => true
+    'force'       => true,
+    'skip-salts'  => true
   );
 
   if (!\WordUp\Helper::isLocalhost()) {
@@ -33,35 +38,16 @@ task('wp:config:create', function () {
     'locale'    => 'locale'
   );
 
-  $constants = array_merge(array(
-    'WP_HOME'         => '{{wp/home}}',
-    'WP_SITEURL'      => '{{wp/siteurl}}',
-    'WP_CONTENT_URL'  => '{{wp/home}}/{{wp/content_dir}}',
-    'WP_CONTENT_DIR'  => '{{wp/content_path}}'
-  ), get('wp/config/constants') ?: array());
-
-  $salt_keys = array(
-    'AUTH_KEY',
-    'SECURE_AUTH_KEY',
-    'LOGGED_IN_KEY',
-    'NONCE_KEY',
-    'AUTH_SALT',
-    'SECURE_AUTH_SALT',
-    'LOGGED_IN_SALT',
-    'NONCE_SALT',
-    'WP_CACHE_KEY_SALT'
+  $constants = array_merge(
+    \WordUp\Helper::generateSalts(array_diff_assoc(\WordUp\Helper::$salts, $user_defined_constants)),
+    array(
+      'WP_HOME'         => '{{wp/home}}',
+      'WP_SITEURL'      => '{{wp/siteurl}}',
+      'WP_CONTENT_URL'  => '{{wp/home}}/{{wp/content_dir}}',
+      'WP_CONTENT_DIR'  => '{{wp/content_path}}'
+    ),
+    $user_defined_constants
   );
-
-  if ($salt_values = array_intersect_key($constants, array_flip($salt_keys))) {
-    $expected_count = count($salt_keys);
-    $actual_count = count($salt_values);
-
-    if ($actual_count !== $expected_count) {
-      throw new \Error("If defining your own salts, you should have {$expected_count} total: " . implode(', ', $salt_keys));
-    }
-
-    $default_options['skip-salts'] = true;
-  }
 
   foreach($default_options as $option_flag => $option_value) {
     $options .= " --{$option_flag}";
@@ -102,5 +88,32 @@ task('wp:config:create', function () {
   }
 
   runLocally("./vendor/bin/wp config create%secret%", array(), null, null, parse($options));
-});
+})->desc('Generates a wp-config.php file');
+
+
+task('wp:salts:php', function () {
+  $salts = \WordUp\Helper\generateSalts();
+  $dumper = new \Nette\PhpGenerator\Dumper;
+  $results = array();
+
+  foreach($salts as $key => $value) {
+    $value = $dumper->dump($value);
+    $results[] = "define('{$key}', {$value});";
+  }
+
+  $contents = "<?php\n" . implode("\n", $results) . "\n?>";
+
+  runLocally('mkdir -p {{wp/salts/temp_dir}}');
+
+  if (!get('wp/salts/php/file_name')) {
+    $now = date('ymdHis');
+    set('wp/salts/php/file_name', "salts-{$now}.php");
+  }
+
+  $file_path = parse('{{wp/salts/temp_dir}}/{{wp/salts/php/file_name}}');
+
+  file_put_contents($file_path, $contents);
+
+  info("Salts saved to {$file_path}");
+})->once()->desc('Generates salts in PHP format and saves them to a file');
 ?>
