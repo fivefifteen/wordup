@@ -81,9 +81,9 @@ These are options that are custom to WordUp. See the source of [recipe/wordup.ph
  - `db/keep_local_exports` - If truthy, database exports will be deleted from the local environment after importing
  - `templates/files` - A list of `.mustache` files to be rendered
  - `templates/temp_dir` - A temporary directory to store template files before uploading them to a remote server
- - `wp/config/constants` - An associative array of constants to write to `wp-config.php` during the `wp:config:create` task
- - `wp/config/extra_php` - PHP code that should be included in `wp-config.php`
- - `wp/config/require` - A list of files that should be required by `wp-config.php`
+ - `wp/config/constants` - An associative array of constants to be defined in `wp-config.php`
+ - `wp/config/extra_php` - PHP code to be included in `wp-config.php`
+ - `wp/config/require` - A list of files to be required by `wp-config.php`
  - `wp/content_dir` - The name of WordPress's content directory
  - `wp/content_path` - The remote path to WordPress's content directory
  - `wp/home` - The home URL for your WordPress website
