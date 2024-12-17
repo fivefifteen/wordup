@@ -21,6 +21,7 @@ task('wp:config:create', function () {
   $default_options = array(
     'config-file' => "{{release_or_current_path}}/wp-config.php",
     'force'       => true,
+    'skip-check'  => true,
     'skip-salts'  => true
   );
 
