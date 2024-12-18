@@ -43,7 +43,7 @@ task('wp:config:create', function () {
   $constants = array_merge(
     \WordUp\Helper::generateSalts(
       array_diff(\WordUp\Helper::$salt_keys, array_keys($user_defined_constants)),
-      '-_ []{}~+=,.;:/?|'
+      '-_ ~+=,.;:/?'
     ),
     array(
       'WP_HOME'         => '{{wp/home}}',
