@@ -6,12 +6,12 @@ use function \Deployer\{
 };
 
 task('uploads:push', function () {
-  upload('{{wp/uploads_dir}}', '{{wp/uploads_path}}');
+  upload('{{wp/uploads_dir}}/', '{{wp/uploads_path}}');
 })->once()->desc('Pushes uploads from local to remote');
 
 
 task('uploads:pull', function () {
-  download('{{wp/uploads_path}}', '{{wp/uploads_dir}}');
+  download('{{wp/uploads_path}}/', '{{wp/uploads_dir}}');
 })->once()->desc('Pulls uploads from remote to local');
 
 
