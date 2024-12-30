@@ -28,11 +28,14 @@ task('db:import', function () {
     throw new \Error('db/export_name variable required');
   }
 
-  $local_url = \WordUp\Helper::getLocalhost()->get('wp/home');
+  $localhost = \WordUp\Helper::getLocalhost();
+  $local_url = $localhost->get('wp/home');
+  $local_path = $localhost->get('current_path');
   $local_file = "{{db/exports_dir}}/{{db/export_name}}";
 
   runLocally("./vendor/bin/wp db import {$local_file}");
-  runLocally("./vendor/bin/wp search-replace {{wp/home}} --all-tables {$local_url}");
+  runLocally("./vendor/bin/wp search-replace {{wp/home}} {$local_url} --all-tables");
+  runLocally("./vendor/bin/wp search-replace {{wp/content_path}} {$local_path}/{{wp/content_dir}} --all-tables");
 
   if (!get('db/keep_local_exports')) {
     runLocally("rm {$local_file}");
@@ -66,7 +69,9 @@ task('db:import:remote', function () {
     throw new \Error('db/export_name variable required');
   }
 
-  $local_url = \WordUp\Helper::getLocalhost()->get('wp/home');
+  $localhost = \WordUp\Helper::getLocalhost();
+  $local_url = $localhost->get('wp/home');
+  $local_path = $localhost->get('current_path');
   $local_file = "{{db/exports_dir}}/{{db/export_name}}";
   $remote_file = "{{db/exports_path}}/{{db/export_name}}";
 
@@ -75,6 +80,7 @@ task('db:import:remote', function () {
 
   runLocally("./vendor/bin/wp db import {$remote_file} --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
   runLocally("./vendor/bin/wp search-replace {$local_url} {{wp/home}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
+  runLocally("./vendor/bin/wp search-replace {$local_path}/{{wp/content_dir}} {{wp/content_path}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
 
   if (!get('db/keep_exports')) {
     run("rm {$remote_file}");
