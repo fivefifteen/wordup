@@ -46,6 +46,7 @@ add('clear_paths', array(
   'deploy.yml',
   'deploy.encrypted.yml',
   'deploy.php',
+  'patches',
   'readme.md'
 ));
 add('recipes', array('wordup'));
