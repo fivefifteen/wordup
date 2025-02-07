@@ -38,6 +38,7 @@ add('clear_paths', array(
   '.git',
   '.gitignore',
   '.lando.yml',
+  '.sops.yaml',
   'auth.json',
   'auth.encrypted.json',
   'composer.json',
