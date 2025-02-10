@@ -47,7 +47,8 @@ add('clear_paths', array(
   'deploy.encrypted.yml',
   'deploy.php',
   'patches',
-  'readme.md'
+  'readme.md',
+  'reloader.php',
 ));
 add('recipes', array('wordup'));
 add('shared_dirs', array('{{wp/uploads_dir}}'));
