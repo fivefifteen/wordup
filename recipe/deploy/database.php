@@ -19,7 +19,7 @@ task('db:export', function () {
   $local_file = "{{db/exports_dir}}/{{db/export_name}}";
 
   runLocally('mkdir -p {{db/exports_dir}}');
-  runLocally("./vendor/bin/wp db export {$local_file} --add-drop-table");
+  runLocally("./vendor/bin/wp db export {$local_file} --add-drop-table", array(), null);
 })->once()->desc('Exports the local database');
 
 
@@ -33,9 +33,9 @@ task('db:import', function () {
   $local_path = $localhost->get('current_path');
   $local_file = "{{db/exports_dir}}/{{db/export_name}}";
 
-  runLocally("./vendor/bin/wp db import {$local_file}");
-  runLocally("./vendor/bin/wp search-replace {{wp/home}} {$local_url} --all-tables");
-  runLocally("./vendor/bin/wp search-replace {{wp/content_path}} {$local_path}/{{wp/content_dir}} --all-tables");
+  runLocally("./vendor/bin/wp db import {$local_file}", array(), null);
+  runLocally("./vendor/bin/wp search-replace {{wp/home}} {$local_url} --all-tables", array(), null);
+  runLocally("./vendor/bin/wp search-replace {{wp/content_path}} {$local_path}/{{wp/content_dir}} --all-tables", array(), null);
 
   if (!get('db/keep_local_exports')) {
     runLocally("rm {$local_file}");
@@ -55,7 +55,7 @@ task('db:export:remote', function () {
   run('mkdir -p {{db/exports_path}}');
   runLocally('mkdir -p {{db/exports_dir}}');
 
-  runLocally("./vendor/bin/wp db export {$remote_file} --add-drop-table --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
+  runLocally("./vendor/bin/wp db export {$remote_file} --add-drop-table --ssh={{remote_user}}@{{hostname}}:{{current_path}}", array(), null);
   download($remote_file, $local_file);
 
   if (!get('db/keep_exports')) {
@@ -78,9 +78,9 @@ task('db:import:remote', function () {
   run('mkdir -p {{db/exports_path}}');
   upload($local_file, $remote_file);
 
-  runLocally("./vendor/bin/wp db import {$remote_file} --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
-  runLocally("./vendor/bin/wp search-replace {$local_url} {{wp/home}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
-  runLocally("./vendor/bin/wp search-replace {$local_path}/{{wp/content_dir}} {{wp/content_path}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}");
+  runLocally("./vendor/bin/wp db import {$remote_file} --ssh={{remote_user}}@{{hostname}}:{{current_path}}", array(), null);
+  runLocally("./vendor/bin/wp search-replace {$local_url} {{wp/home}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}", array(), null);
+  runLocally("./vendor/bin/wp search-replace {$local_path}/{{wp/content_dir}} {{wp/content_path}} --all-tables --ssh={{remote_user}}@{{hostname}}:{{current_path}}", array(), null);
 
   if (!get('db/keep_exports')) {
     run("rm {$remote_file}");
